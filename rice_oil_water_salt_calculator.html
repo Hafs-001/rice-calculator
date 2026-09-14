@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rice, Oil, Water & Salt Calculator</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #fff7e6, #f3f8ff);
+    color: #222;
+  }
+  .card {
+    width: min(92%, 430px);
+    background: white;
+    padding: 32px;
+    border-radius: 24px;
+    box-shadow: 0 12px 35px rgba(0,0,0,.12);
+    text-align: center;
+  }
+  h1 { margin: 0 0 8px; font-size: 30px; }
+  .subtitle { margin: 0 0 25px; color: #666; }
+  label {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  input {
+    width: 100%;
+    padding: 15px;
+    font-size: 20px;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    outline: none;
+  }
+  input:focus { border-color: #6b8cff; }
+  button {
+    width: 100%;
+    margin-top: 16px;
+    padding: 15px;
+    border: 0;
+    border-radius: 12px;
+    background: #5b72e8;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  button:hover { background: #4b62d8; }
+  .result {
+    margin-top: 24px;
+    padding: 20px;
+    border-radius: 16px;
+    background: #f1f5ff;
+  }
+  .result small { color: #666; }
+  .oil {
+    font-size: 38px;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+  .rule {
+    margin-top: 18px;
+    font-size: 14px;
+    color: #777;
+  }
+</style>
+</head>
+<body>
+  <main class="card">
+    <h1>🍚 Rice Calculator</h1>
+    <p class="subtitle">Calculate oil, water, and salt for your rice.</p>
+
+    <label for="rice">Rice amount (grams)</label>
+    <input id="rice" type="number" min="0" step="1" placeholder="e.g. 500">
+
+    <button onclick="calculateRice()">Calculate</button>
+
+    <section class="result" aria-live="polite">
+      <small>Recommended oil</small>
+      <div class="oil" id="oil">— g</div>
+      <small>Recommended water</small>
+      <div class="oil" id="water">— g</div>
+      <small>Recommended salt</small>
+      <div class="oil" id="salt">— g</div>
+    </section>
+
+    <div class="rule">Recipe ratio: 500 g rice = 100 g oil, 1000 g water, 25 g salt</div>
+  </main>
+
+<script>
+function calculateRice() {
+  const rice = parseFloat(document.getElementById("rice").value);
+  const oilEl = document.getElementById("oil");
+  const waterEl = document.getElementById("water");
+  const saltEl = document.getElementById("salt");
+
+  if (isNaN(rice) || rice < 0) {
+    oilEl.textContent = "Enter a valid amount";
+    waterEl.textContent = "— g";
+    saltEl.textContent = "— g";
+    return;
+  }
+
+  // Base recipe: 500 g rice = 100 g oil, 1000 g water, 25 g salt.
+  const oil = rice * 0.2;
+  const water = rice * 2;
+  const salt = rice * 0.05;
+
+  oilEl.textContent = Number.isInteger(oil) ? oil + " g" : oil.toFixed(1) + " g";
+  waterEl.textContent = Number.isInteger(water) ? water + " g" : water.toFixed(1) + " g";
+  saltEl.textContent = Number.isInteger(salt) ? salt + " g" : salt.toFixed(1) + " g";
+}
+
+document.getElementById("rice").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") calculateRice();
+});
+</script>
+</body>
+</html>
